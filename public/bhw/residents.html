@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Residents - BHW LomaHealth</title>
+    <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">
+            <img src="../assets/images/Lomahealth_logo.png" alt="LomaHealth Logo" class="logo-img">
+            <div style="display: flex; flex-direction: column;">
+                <span>LomaHealth</span>
+                <span style="font-size: 10px; font-weight: normal; color: #9ca3af;">Smarter Health</span>
+            </div>
+        </div>
+        
+        <ul class="nav admin-nav">
+            <li onclick="window.location.href='index.html'">Dashboard</li>
+            <li class="active">Residents</li>
+            <li onclick="window.location.href='immunization.html'">Immunization</li>
+            <li onclick="window.location.href='missions.html'">Missions</li>
+        </ul>
+        <button class="logout-btn" onclick="window.location.href='../login.html'">Log Out</button>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="main-content" style="background-color: #e5e7eb;">
+        <!-- Top Navigation Bar -->
+        <div class="topbar">
+            <div class="page-header" style="flex-grow: 1;">
+                <h2 style="margin: 0; font-size: 22px;">Residents</h2>
+            </div>
+            <div class="bell-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+            </div>
+            <div class="user-info">
+                <div class="avatar" style="background-color: #df2a98;">JC</div>
+                <div class="user-details">
+                    <strong>Jose Cruz</strong>
+                    <span class="badge" style="background-color: #df2a98;">BHW (Heritage)</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="dashboard-area admin-dashboard-layout">
+            
+            <!-- Page Header -->
+            <div class="resident-header">
+                <div>
+                    <h1 style="margin-bottom: 5px; font-size: 24px;">Resident Health Records</h1>
+                    <p style="color: #4b5563; font-size: 14px;">Manage and view all registered residents</p>
+                </div>
+                <button class="btn-qa btn-qa-dark" style="padding: 12px 20px;" onclick="openAddModal()">+ Add Resident</button>
+            </div>
+
+            <!-- Search and Filter Bar -->
+            <div class="search-filter-bar">
+                <div class="search-input-group">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <input type="text" placeholder="Search by name or area...">
+                </div>
+                <div class="filter-dropdowns">
+                    <select id="filter-area" onchange="loadResidents()">
+                        <option value="All">All Areas</option>
+                        <option value="Heritage">Heritage</option>
+                        <option value="Deca">Deca</option>
+                        <option value="Proper">Proper</option>
+                    </select>
+                    <select id="filter-gender" onchange="loadResidents()">
+                        <option value="All">All Sex</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Residents Table -->
+            <div class="admin-card" style="padding: 0; overflow: hidden; display: flex; flex-direction: column;">
+                <table class="resident-table" style="flex-grow: 1;">
+                    <thead>
+                        <tr>
+                            <th>Photo</th>
+                            <th>Resident Name</th>
+                            <th>Age</th>
+                            <th>Area</th>
+                            <th>Last Visit</th>
+                            <th>Vaccination status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="residents-tbody">
+                        <!-- Javascript will dynamically inject the rows here -->
+                    </tbody>
+                </table>
+
+                <div class="pagination-bar" style="justify-content: space-between; align-items: center; background-color: white; border-top: 1px solid #e5e7eb;">
+                    <div style="display: flex; flex-direction: column; gap: 2px;">
+                        <span id="log-count" style="font-size: 13px; color: #4b5563;">Showing 0 residents</span>
+                        <span style="font-size: 11px; color: #9ca3af;">(Area: Heritage)</span>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="btn-page" style="background-color: white; border: 1px solid #d1d5db;">Previous</button>
+                        <button class="btn-page" style="background-color: white; border: 1px solid #d1d5db;">Next</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- VIEW RESIDENT MODAL -->
+    <div id="view-resident-modal" class="modal" onclick="closeModal()">
+        <div class="resident-modal-card" onclick="event.stopPropagation()">
+            <div class="rm-left">
+                <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            </div>
+            
+            <div class="rm-right">
+                <h2 id="modal-name">-</h2>
+                <div class="rm-data-row">
+                    <div><small>Age:</small><span id="modal-age">-</span></div>
+                    <div><small>Date of Birth:</small><span id="modal-dob">-</span></div>
+                    <div><small>Sex:</small><span id="modal-sex">-</span></div>
+                    <div><small>Area:</small><span id="modal-area">-</span></div>
+                </div>
+                <div class="rm-data-row" style="grid-template-columns: 1fr;">
+                    <div><small>Address:</small><span id="modal-address">-</span></div>
+                </div>
+                <div class="rm-data-row" style="grid-template-columns: 1fr 1fr; border-bottom: none;">
+                    <div><small>Email(if available):</small><span id="modal-email">-</span></div>
+                    <div><small>Mobile Number:</small><span id="modal-mobile">-</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADD RESIDENT MODAL -->
+    <div id="add-resident-modal" class="modal" onclick="closeAddModal()">
+        <div class="resident-modal-card" style="flex-direction: column; max-width: 600px;" onclick="event.stopPropagation()">
+            <h2 style="margin-bottom: 20px; color: #111827;">Add New Resident</h2>
+            
+            <div class="register-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div class="auth-input-group"><label>First Name</label><input type="text" id="add-fname"></div>
+                <div class="auth-input-group"><label>Last Name</label><input type="text" id="add-lname"></div>
+                <div class="auth-input-group"><label>Age</label><input type="number" id="add-age"></div>
+                <div class="auth-input-group"><label>DOB</label><input type="date" id="add-dob"></div>
+                <div class="auth-input-group">
+                    <label>Sex</label>
+                    <select id="add-sex" style="padding: 12px 15px; border: 1px solid #d1d5db; border-radius: 8px; width: 100%; outline: none;">
+                        <option>Male</option><option>Female</option>
+                    </select>
+                </div>
+                <div class="auth-input-group">
+                    <label>Area</label>
+                    <select id="add-area" style="padding: 12px 15px; border: 1px solid #d1d5db; border-radius: 8px; width: 100%; outline: none;">
+                        <option>Heritage</option><option>Proper</option><option>Deca</option>
+                    </select>
+                </div>
+                <div class="auth-input-group" style="grid-column: span 2;"><label>Address</label><input type="text" id="add-address"></div>
+                <div class="auth-input-group"><label>Email</label><input type="email" id="add-email"></div>
+                <div class="auth-input-group"><label>Mobile Number</label><input type="text" id="add-mobile"></div>
+            </div>
+
+            <div style="display: flex; gap: 15px; margin-top: 20px; justify-content: flex-end;">
+                <button onclick="closeAddModal()" style="padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer;">Cancel</button>
+                <button onclick="submitNewResident()" style="padding: 10px 20px; border: none; background-color: #115e59; color: white; border-radius: 8px; cursor: pointer;">Save Resident</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Link to the separate JS file -->
+    <script src="residents.js"></script>
+</body>
+</html>

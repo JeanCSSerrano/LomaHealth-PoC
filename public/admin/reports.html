@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reports - Admin LomaHealth</title>
+    <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">
+            <img src="../assets/images/Lomahealth_logo.png" alt="LomaHealth Logo" class="logo-img">
+            <div style="display: flex; flex-direction: column;">
+                <span>LomaHealth</span>
+                <span style="font-size: 10px; font-weight: normal; color: #9ca3af;">Smarter Health</span>
+            </div>
+        </div>
+        
+        <ul class="nav admin-nav">
+            <li onclick="window.location.href='index.html'">Dashboard</li>
+            <li onclick="window.location.href='residents.html'">Residents</li>
+            <li onclick="window.location.href='immunization.html'">Immunization</li>
+            <li onclick="window.location.href='medicines.html'">Medicines</li>
+            <li onclick="window.location.href='hotspot.html'">Hotspot Map</li>
+            <li onclick="window.location.href='analytics.html'">Analytics</li>
+            <li onclick="window.location.href='missions.html'">Missions</li>
+            <li class="active">Reports</li>
+            <li onclick="window.location.href='staffs.html'">Staffs</li>
+            <li onclick="window.location.href='appointments.html'">Appointment</li>
+            <li onclick="window.location.href='audit.html'">Audit Logs</li>
+        </ul>
+        <button class="logout-btn" onclick="window.location.href='../login.html'">Log Out</button>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="main-content" style="background-color: #e5e7eb;">
+        <!-- Top Navigation Bar -->
+        <div class="topbar">
+            <div class="page-header" style="flex-grow: 1;">
+                <h2 style="margin: 0; font-size: 24px; color: #111827;">Reports</h2>
+                <p style="margin: 5px 0 0 0; font-size: 13px; color: #6b7280;">Generate and Export health reports</p>
+            </div>
+            <div class="bell-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+            </div>
+            <div class="user-info">
+                <div class="avatar" style="background-color: #f472b6;">MS</div>
+                <div class="user-details">
+                    <strong>Maria Santos</strong>
+                    <span class="badge" style="background-color: #f472b6;">ADMIN PROPER</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Dashboard Area -->
+        <div class="dashboard-area admin-dashboard-layout">
+            
+            <div class="reports-grid">
+                
+                <!-- Left Panel: Report Selection List -->
+                <div class="reports-left-panel">
+                    
+                    <div class="report-filter-section">
+                        <label>Month</label>
+                        <!-- Pill shaped dropdown -->
+                        <select>
+                            <option>August 2026</option>
+                            <option>July 2026</option>
+                            <option>June 2026</option>
+                        </select>
+                    </div>
+
+                    <div class="reports-list">
+                        <!-- Card 1 -->
+                        <div class="report-card" onclick="selectReport(this)">
+                            <h4>Consultation Report</h4>
+                            <p>Summary of all consultations and health services</p>
+                        </div>
+                        
+                        <!-- Card 2 -->
+                        <div class="report-card" onclick="selectReport(this)">
+                            <h4>Vaccination Report</h4>
+                            <p>Comprehensive vaccination coverage and statistics</p>
+                        </div>
+
+                        <!-- Card 3 -->
+                        <div class="report-card" onclick="selectReport(this)">
+                            <h4>Overdue Immunization</h4>
+                            <p>List of residents with overdue vaccinations</p>
+                        </div>
+
+                        <!-- Card 4 -->
+                        <div class="report-card" onclick="selectReport(this)">
+                            <h4>Medicine Stock Report</h4>
+                            <p>Current inventory levels and stock status</p>
+                        </div>
+
+                        <!-- Card 5 -->
+                        <div class="report-card" onclick="selectReport(this)">
+                            <h4>Medicine Usage Report</h4>
+                            <p>Medicine dispensing history and trends</p>
+                        </div>
+
+                        <!-- Card 6 -->
+                        <div class="report-card" onclick="selectReport(this)">
+                            <h4>Expired Medicines</h4>
+                            <p>List of expired or near-expiry medicines</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Panel: The Preview / Export Area -->
+                <div class="report-preview-panel">
+                    
+                    <!-- Centered Placeholder SVG -->
+                    <div class="report-empty-state">
+                        <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="9" y1="15" x2="15" y2="15"></line>
+                            <line x1="9" y1="11" x2="11" y2="11"></line>
+                        </svg>
+                        <p>Select a report type to begin</p>
+                    </div>
+
+                    <!-- Bottom Right Export Button (Reusing the class from Medicines page) -->
+                    <div class="export-btn-container">
+                        <button class="btn-export" onclick="alert('In a live environment, this would export a PDF or CSV file!')">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                            Export
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- UI Logic Script -->
+    <script>
+        function selectReport(element) {
+            // Remove 'active' class from all cards
+            document.querySelectorAll('.report-card').forEach(card => card.classList.remove('active'));
+            // Add 'active' class to the clicked card
+            element.classList.add('active');
+        }
+    </script>
+</body>
+</html>

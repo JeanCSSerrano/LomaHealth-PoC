@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Analytics - Admin LomaHealth</title>
+    <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">
+            <img src="../assets/images/Lomahealth_logo.png" alt="LomaHealth Logo" class="logo-img">
+            <div style="display: flex; flex-direction: column;">
+                <span>LomaHealth</span>
+                <span style="font-size: 10px; font-weight: normal; color: #9ca3af;">Smarter Health</span>
+            </div>
+        </div>
+        
+        <ul class="nav admin-nav">
+            <li onclick="window.location.href='index.html'">Dashboard</li>
+            <li onclick="window.location.href='residents.html'">Residents</li>
+            <li onclick="window.location.href='immunization.html'">Immunization</li>
+            <li onclick="window.location.href='medicines.html'">Medicines</li>
+            <li onclick="window.location.href='hotspot.html'">Hotspot Map</li>
+            <li class="active">Analytics</li>
+            <li onclick="window.location.href='missions.html'">Missions</li>
+            <li onclick="window.location.href='reports.html'">Reports</li>
+            <li onclick="window.location.href='appointments.html'">Appointment</li>
+        </ul>
+        <button class="logout-btn" onclick="window.location.href='../login.html'">Log Out</button>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="main-content" style="background-color: #f3f4f6;">
+        <!-- Top Navigation Bar -->
+        <div class="topbar">
+            <div class="page-header" style="flex-grow: 1;">
+                <h2 style="margin: 0; font-size: 22px;">Analytics</h2>
+            </div>
+            <div class="bell-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+            </div>
+            <div class="user-info">
+                <div class="avatar" style="background-color: #f472b6;">CG</div>
+                <div class="user-details">
+                    <strong>Dr. Carlos Garcia</strong>
+                    <span class="badge" style="background-color: #f472b6;">Health Official (Proper)</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="dashboard-area admin-dashboard-layout">
+            
+            <div style="margin-bottom: 20px;">
+                <h1 style="margin-bottom: 5px; font-size: 24px; color: #111827;">Predictive Analytics</h1>
+                <p style="color: #4b5563; font-size: 14px;">Forecast</p>
+            </div>
+
+            <!-- Blue Status Banner -->
+            <div class="analytics-banner">
+                Date last updated: May 5, 2026, 9:00 AM. Next forecast: May 8 2026, 9:00 AM
+            </div>
+
+            <!-- Gray Background Enclosure -->
+            <div class="analytics-enclosure">
+                
+                <!-- 3x2 Grid for Forecasts -->
+                <div class="forecast-grid">
+                    
+                    <!-- Card 1 -->
+                    <div class="forecast-card">
+                        <h4>Measles-Rubella (MR)</h4>
+                        <svg class="sparkline" viewBox="0 0 100 30">
+                            <!-- Green line trending UP -->
+                            <path d="M0 25 Q 25 20, 50 15 T 100 5" fill="none" stroke="#16a34a" stroke-width="2"/>
+                        </svg>
+                        <div class="forecast-stats-row">
+                            <small>This month: 58</small>
+                            <span class="trend-up">▲ 28%</span>
+                        </div>
+                        <div class="forecast-projected">
+                            <h2>74</h2> <small>projected next month</small>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="forecast-card">
+                        <h4>Pentavalent (DPT-HepB-Hib)</h4>
+                        <svg class="sparkline" viewBox="0 0 100 30">
+                            <!-- Red line trending DOWN -->
+                            <path d="M0 5 Q 25 10, 50 20 T 100 25" fill="none" stroke="#ef4444" stroke-width="2"/>
+                        </svg>
+                        <div class="forecast-stats-row">
+                            <small>This month: 46</small>
+                            <span class="trend-down">▼ 15%</span>
+                        </div>
+                        <div class="forecast-projected">
+                            <h2>39</h2> <small>projected next month</small>
+                        </div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="forecast-card">
+                        <h4>Oral Polio Vaccine (OPV)</h4>
+                        <svg class="sparkline" viewBox="0 0 100 30">
+                            <path d="M0 25 Q 25 20, 50 15 T 100 5" fill="none" stroke="#16a34a" stroke-width="2"/>
+                        </svg>
+                        <div class="forecast-stats-row">
+                            <small>This month: 52</small>
+                            <span class="trend-up">▲ 17%</span>
+                        </div>
+                        <div class="forecast-projected">
+                            <h2>61</h2> <small>projected next month</small>
+                        </div>
+                    </div>
+
+                    <!-- Card 4 -->
+                    <div class="forecast-card">
+                        <h4>Amoxicillin 250mg</h4>
+                        <svg class="sparkline" viewBox="0 0 100 30">
+                            <path d="M0 25 Q 25 20, 50 15 T 100 5" fill="none" stroke="#16a34a" stroke-width="2"/>
+                        </svg>
+                        <div class="forecast-stats-row">
+                            <small>This month: 85</small>
+                            <span class="trend-up">▲ 13%</span>
+                        </div>
+                        <div class="forecast-projected">
+                            <h2>96</h2> <small>projected next month</small>
+                        </div>
+                    </div>
+
+                    <!-- Card 5 -->
+                    <div class="forecast-card">
+                        <h4>Oral Rehydration Salts</h4>
+                        <svg class="sparkline" viewBox="0 0 100 30">
+                            <path d="M0 5 Q 25 10, 50 20 T 100 25" fill="none" stroke="#ef4444" stroke-width="2"/>
+                        </svg>
+                        <div class="forecast-stats-row">
+                            <small>This month: 64</small>
+                            <span class="trend-down">▼ 6%</span>
+                        </div>
+                        <div class="forecast-projected">
+                            <h2>60</h2> <small>projected next month</small>
+                        </div>
+                    </div>
+
+                    <!-- Card 6 -->
+                    <div class="forecast-card">
+                        <h4>Oral Polio Vaccine (OPV)</h4>
+                        <svg class="sparkline" viewBox="0 0 100 30">
+                            <path d="M0 25 Q 25 20, 50 15 T 100 5" fill="none" stroke="#16a34a" stroke-width="2"/>
+                        </svg>
+                        <div class="forecast-stats-row">
+                            <small>This month: 52</small>
+                            <span class="trend-up">▲ 17%</span>
+                        </div>
+                        <div class="forecast-projected">
+                            <h2>61</h2> <small>projected next month</small>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Risk Cluster Section -->
+                <h3 style="margin-top: 40px; margin-bottom: 15px; font-size: 18px; color: #111827; font-weight: normal;">Risk Cluster Summary</h3>
+                
+                <div class="risk-flex">
+                    <div class="risk-card">
+                        <small>LOW RISK</small>
+                        <h2 style="color: #16a34a;">3</h2>
+                        <span>sitios/purok</span>
+                    </div>
+                    <div class="risk-card">
+                        <small>MODERATE RISK</small>
+                        <h2 style="color: #d97706;">4</h2>
+                        <span>sitios/purok</span>
+                    </div>
+                    <div class="risk-card">
+                        <small>HIGH RISK</small>
+                        <h2 style="color: #ef4444;">3</h2>
+                        <span>sitios/purok</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

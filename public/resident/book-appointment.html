@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Appointment - LomaHealth</title>
+    <link rel="stylesheet" href="../assets/style.css"">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">
+            <img src="../assets/images/Lomahealth_logo.png" alt="LomaHealth Logo" class="logo-img">
+            <span>LomaHealth</span>
+        </div>
+        <ul class="nav">
+            <li onclick="window.location.href='index.html'" >Dashboard</li>
+            <li onclick="window.location.href='book-appointment.html'" class="active">Book Appointment</li>
+            <li onclick="window.location.href='my-appointments.html'">My Appointments</li>
+            <li onclick="window.location.href='health-record.html'">Health Record</li>
+            <li onclick="window.location.href='profile.html'">Profile</li>
+        </ul>
+        <button class="logout-btn" onclick="window.location.href='../login.html'">Log Out</button>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <!-- Top Navigation Bar (Same as Dashboard) -->
+        <div class="topbar">
+            <div class="bell-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+            </div>
+            <div class="user-info">
+                <div class="avatar">JD</div>
+                <div class="user-details">
+                    <strong>Juana Dela Cruz</strong>
+                    <span class="badge">Resident</span>
+                    <small>Proper / Main Barangay Hall</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- NEW: Booking Area -->
+        <div class="booking-area">
+            <span class="subtitle">APPOINTMENTS</span>
+            <h1>Book an appointment</h1>
+
+            <!-- Progress Tracker -->
+            <div class="progress-tracker" id="progress-tracker">
+                <div class="step active" id="tracker-1"><span>01</span> CHOOSE SERVICE</div>
+                <div class="step" id="tracker-2"><span>02</span> Pick date & time</div>
+                <div class="step" id="tracker-3"><span>03</span> Confirm</div>
+            </div>
+
+            <!-- Main Booking Form Card -->
+            <div class="booking-card">
+                
+                <!-- ============================ -->
+                <!-- STEP 1: CHOOSE SERVICE -->
+                <!-- ============================ -->
+                <div id="step-1" class="form-step active-step">
+                    <h3>Choose a service</h3>
+                    <div class="service-options">
+                        <label class="service-card">
+                            <input type="radio" name="service" value="Medicine Retrieval" checked> 
+                            <span>Medicine Retrieval</span>
+                        </label>
+                        <label class="service-card">
+                            <input type="radio" name="service" value="Vaccination"> 
+                            <span>Vaccination</span>
+                        </label>
+                        <label class="service-card">
+                            <input type="radio" name="service" value="General Consultation"> 
+                            <span>General Consultation</span>
+                        </label>
+                    </div>
+                    <div class="form-actions" style="justify-content: flex-end;">
+                        <button class="btn-continue" onclick="nextStep(2)">CONTINUE →</button>
+                    </div>
+                </div>
+
+                <!-- ============================ -->
+                <!-- STEP 2: PICK DATE & TIME -->
+                <!-- ============================ -->
+                <div id="step-2" class="form-step">
+                    <h3>Choose a date and time</h3>
+                    <div class="form-row">
+                        <div class="input-group">
+                            <label>Preferred Date</label>
+                            <input type="date" id="booking-date">
+                        </div>
+                        <div class="input-group">
+                            <label for="booking-loc">Location</label>
+                            <select id="booking-loc">
+                                <option value="Proper / Main Barangay Hall">Proper / Main Barangay Hall</option>
+                                <option value="Deca">Deca</option>
+                                <option value="Heritage">Heritage</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Available Time Slots</label>
+                        <div class="time-slots" id="time-slot-container">
+                            <!-- Clickable time slot buttons with CORRECTED times! -->
+                            <button class="time-btn" onclick="selectTime(this, '8:00 AM')">8:00 AM</button>
+                            <button class="time-btn" onclick="selectTime(this, '9:00 AM')">9:00 AM</button>
+                            <button class="time-btn inactive">10:00 AM</button>
+                            <button class="time-btn" onclick="selectTime(this, '11:00 AM')">11:00 AM</button>
+                            <button class="time-btn" onclick="selectTime(this, '12:00 PM')">12:00 PM</button>
+                            <button class="time-btn" onclick="selectTime(this, '1:00 PM')">1:00 PM</button>
+                            <button class="time-btn" onclick="selectTime(this, '2:00 PM')">2:00 PM</button>
+                            <button class="time-btn inactive">3:00 PM</button>
+                            <button class="time-btn" onclick="selectTime(this, '4:00 PM')">4:00 PM</button>
+                            <button class="time-btn" onclick="selectTime(this, '5:00 PM')">5:00 PM</button>
+                            <button class="time-btn" onclick="selectTime(this, '6:00 PM')">6:00 PM</button>
+                            <button class="time-btn inactive">7:00 PM</button>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button class="btn-back" onclick="nextStep(1)">← Back</button>
+                        <button class="btn-continue" onclick="goToConfirm()">CONTINUE →</button>
+                    </div>
+                </div>
+
+                <!-- ============================ -->
+                <!-- STEP 3: CONFIRMATION -->
+                <!-- ============================ -->
+                <div id="step-3" class="form-step">
+                    <h3>Review your details</h3>
+                    
+                    <div class="summary-box">
+                        <div class="summary-item"><small>Service</small><p id="summary-service">-</p></div>
+                        <div class="summary-item"><small>Date</small><p id="summary-date">-</p></div>
+                        <div class="summary-item"><small>Time</small><p id="summary-time">-</p></div>
+                        <div class="summary-item"><small>Location</small><p id="summary-loc">-</p></div>
+                    </div>
+
+                    <div class="input-group" style="margin-top: 20px;">
+                        <label>Notes for the health worker (optional)</label>
+                        <textarea id="booking-notes" placeholder="e.g Bringing my 2-year old for a routine shot"></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button class="btn-back" onclick="nextStep(2)">← Back</button>
+                        <button class="btn-continue" onclick="submitAppointment()">CONFIRM & BOOK</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- The Popup Modal (Hidden by default) -->
+    <div id="appointment-modal" class="modal">
+        <div class="modal-content">
+            <h2>Appointment Requested!</h2>
+            <p>Your appointment details have been saved.</p>
+            <button onclick="closePopup()">Close</button>
+        </div>
+    </div>
+
+    <script src="book.js"></script>
+</body>
+</html>

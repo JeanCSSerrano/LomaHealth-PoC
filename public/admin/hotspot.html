@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hotspot Map - Admin LomaHealth</title>
+    <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">
+            <img src="../assets/images/Lomahealth_logo.png" alt="LomaHealth Logo" class="logo-img">
+            <div style="display: flex; flex-direction: column;">
+                <span>LomaHealth</span>
+                <span style="font-size: 10px; font-weight: normal; color: #9ca3af;">Smarter Health</span>
+            </div>
+        </div>
+        
+        <ul class="nav admin-nav">
+            <li onclick="window.location.href='index.html'">Dashboard</li>
+            <li onclick="window.location.href='residents.html'">Residents</li>
+            <li onclick="window.location.href='immunization.html'">Immunization</li>
+            <li onclick="window.location.href='medicines.html'">Medicines</li>
+            <li class="active">Hotspot Map</li>
+            <li onclick="window.location.href='analytics.html'">Analytics</li>
+            <li onclick="window.location.href='missions.html'">Missions</li>
+            <li onclick="window.location.href='reports.html'">Reports</li>
+            <li onclick="window.location.href='staffs.html'">Staffs</li>
+            <li onclick="window.location.href='appointments.html'">Appointment</li>
+            <li onclick="window.location.href='audit.html'">Audit Logs</li>
+        </ul>
+        <button class="logout-btn" onclick="window.location.href='../login.html'">Log Out</button>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="main-content" style="background-color: #e5e7eb; display: flex; flex-direction: column;">
+        <!-- Top Navigation Bar -->
+        <div class="topbar">
+            <div class="page-header" style="flex-grow: 1;">
+                <h2 style="margin: 0; font-size: 22px;">Hotspot Mapping</h2>
+            </div>
+            <div class="bell-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+            </div>
+            <div class="user-info">
+                <div class="avatar" style="background-color: #f472b6;">MS</div>
+                <div class="user-details">
+                    <strong>Maria Santos</strong>
+                    <span class="badge" style="background-color: #f472b6;">ADMIN PROPER</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Map Container (Takes up all remaining space) -->
+        <div class="map-wrapper">
+            
+            <!-- Live OpenStreetMap Centered on Loma de Gato -->
+            <iframe class="osm-map" src="https://www.openstreetmap.org/export/embed.html?bbox=120.9800%2C14.7800%2C121.0200%2C14.8100&layer=mapnik" scrolling="no"></iframe>
+
+            <!-- LEFT PANEL: Legend & Zones -->
+            <div class="map-panel map-panel-left">
+                <h3 style="font-size: 18px; margin-bottom: 15px; color: #111827;">Map Legend</h3>
+                
+                <div style="margin-bottom: 25px;">
+                    <label style="font-size: 12px; color: #4b5563; display: block; margin-bottom: 5px;">View Mode</label>
+                    <select style="width: 100%; padding: 8px; border: none; outline: none; border-bottom: 1px solid #d1d5db; font-size: 14px; cursor: pointer;">
+                        <option>Immunization Coverage</option>
+                        <option>Medicine Coverage</option>
+                    </select>
+                </div>
+
+                <div class="legend-items">
+                    <div class="legend-row"><div class="dot dot-green"></div><span>High Coverage (> 85%)</span></div>
+                    <div class="legend-row"><div class="dot dot-yellow"></div><span>Moderate (70 - 85%)</span></div>
+                    <div class="legend-row"><div class="dot dot-red"></div><span>Low (< 70%)</span></div>
+                </div>
+
+                <div class="imm-divider"></div>
+
+                <h3 style="font-size: 14px; margin-bottom: 15px; color: #4b5563; font-weight: normal;">All Zones</h3>
+                
+                <div class="zone-list">
+                    <div class="zone-card">
+                        <span>Heritage</span>
+                        <div class="dot dot-green"></div>
+                    </div>
+                    <div class="zone-card">
+                        <span>Deca</span>
+                        <div class="dot dot-yellow"></div>
+                    </div>
+                    <div class="zone-card">
+                        <span>Proper</span>
+                        <div class="dot dot-red"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT PANEL: Stats -->
+            <div class="map-panel map-panel-right">
+                <div class="location-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    <h3 style="font-size: 20px; color: #111827; margin: 0;">Heritage</h3>
+                </div>
+
+                <div class="location-stats">
+                    <div class="stat-block">
+                        <small>Population</small>
+                        <span>---</span>
+                    </div>
+                    <div class="stat-block">
+                        <small>Vaccinated</small>
+                        <span>---</span>
+                    </div>
+                    <div class="stat-block">
+                        <small>Coverage Rate</small>
+                        <span>---</span>
+                    </div>
+                </div>
+
+                <div class="imm-divider"></div>
+
+                <h3 style="font-size: 16px; margin-bottom: 15px; color: #111827; text-align: center; font-weight: 500;">Frequently used</h3>
+                
+                <table class="freq-table">
+                    <thead>
+                        <tr>
+                            <th>Vaccine Name</th>
+                            <th>Percent used</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Pentavalent</td>
+                            <td>---</td>
+                        </tr>
+                        <tr>
+                            <td>Polio (OPV)</td>
+                            <td>---</td>
+                        </tr>
+                        <tr>
+                            <td>Measles</td>
+                            <td>---</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

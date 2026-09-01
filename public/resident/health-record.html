@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Health Record - LomaHealth</title>
+    <link rel="stylesheet" href="../assets/style.css"">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">
+            <img src="../assets/images/Lomahealth_logo.png" alt="LomaHealth Logo" class="logo-img">
+            <span>LomaHealth</span>
+        </div>
+        <ul class="nav">
+            <li onclick="window.location.href='index.html'" >Dashboard</li>
+            <li onclick="window.location.href='book-appointment.html'">Book Appointment</li>
+            <li onclick="window.location.href='my-appointments.html'">My Appointments</li>
+            <li onclick="window.location.href='health-record.html'" class="active">Health Record</li>
+            <li onclick="window.location.href='profile.html'">Profile</li>
+        </ul>
+        <button class="logout-btn" onclick="window.location.href='../login.html'">Log Out</button>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <!-- Top Navigation Bar -->
+        <div class="topbar">
+            <div class="bell-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+            </div>
+            <div class="user-info">
+                <div class="avatar">JD</div>
+                <div class="user-details">
+                    <strong>Juana Dela Cruz</strong>
+                    <span class="badge">Resident</span>
+                    <small>Proper / Main Barangay Hall</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Health Record Area -->
+        <div class="dashboard-area">
+            <span class="subtitle">DIGITAL HEALTH CARD</span>
+            <h1 class="page-title">My Health Record</h1>
+
+            <!-- Digital ID Card -->
+            <div class="health-id-card">
+                <div class="health-id-top">
+                    <div>
+                        <div class="health-id-header">BARANGAY LOMA DE GATO - HEALTH RECORD</div>
+                        <h2>Juana Dela Cruz</h2>
+                    </div>
+                    <!-- Assuming you want to use the same logo here, or change the path to your specific seal -->
+                    <img src="../assets/images/Lomahealth_logo.png" alt="Barangay Seal" class="health-id-seal">
+                </div>
+                <div class="health-id-details">
+                    <div>
+                        <small>Resident ID</small>
+                        <p>LDG-0001</p>
+                    </div>
+                    <div>
+                        <small>Extension</small>
+                        <p>Proper / Main Barangay Hall</p>
+                    </div>
+                    <div>
+                        <small>Records On File</small>
+                        <p>3</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- List of Records -->
+            <div class="record-list">
+                <div class="record-item">
+                    <span class="record-name">General Consultation</span>
+                    <span class="record-date">July 2, 2026</span>
+                </div>
+                <div class="record-item">
+                    <span class="record-name">Paracetamol 500mg</span>
+                    <span class="record-date">July 2, 2026</span>
+                </div>
+                <div class="record-item">
+                    <span class="record-name">Measles-Rubella vaccine</span>
+                    <span class="record-date">July 2, 2026</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
