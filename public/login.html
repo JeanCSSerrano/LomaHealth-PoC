@@ -4,6 +4,29 @@
     <meta charset="UTF-8">
     <title>Auth - LomaHealth</title>
     <link rel="stylesheet" href="assets/style.css">
+    <style>
+        /* Force no scroll on the page as requested */
+        body.auth-body { overflow: hidden !important; }
+
+        /* Tighter grid specifically for the Register form to save vertical space */
+        .register-grid {
+            display: grid !important;
+            grid-template-columns: repeat(4, 1fr) !important;
+            gap: 12px !important;
+        }
+
+        /* Column Spans */
+        .span-1 { grid-column: span 1; }
+        .span-2 { grid-column: span 2; }
+        .span-3 { grid-column: span 3; }
+        .span-4 { grid-column: span 4; }
+
+        /* Tighter paddings for the inputs so they don't bloat the height */
+        .register-grid .auth-input-group { margin-bottom: 5px !important; }
+        .register-grid .auth-input-group label { margin-bottom: 4px !important; font-size: 12px !important; }
+        .register-grid .auth-input-group input, 
+        .register-grid .auth-input-group select { padding: 10px 12px !important; font-size: 13px !important; }
+    </style>
 </head>
 <body class="auth-body">
 
@@ -30,18 +53,19 @@
     </div>
 
     <!-- Right Side: Forms -->
-    <div class="auth-right">
-        <div class="auth-form-container">
+    <div class="auth-right" style="padding: 20px;">
+        <!-- Container is now a STATIC width to prevent the animation -->
+        <div class="auth-form-container" id="main-container" style="max-width: 750px; padding: 30px; width: 100%;">
             
-            <!-- Header Logo (Visible on mobile/right side) -->
+            <!-- Header Logo -->
             <div class="auth-right-header">
                 <img src="assets/images/Lomahealth_logo.png" alt="Logo">
                 <h2>LomaHealth</h2>
             </div>
-            <p class="auth-subtitle">Smarter Health, Healthier Communities</p>
+            <p class="auth-subtitle" style="margin-bottom: 20px;">Smarter Health, Healthier Communities</p>
 
             <!-- Toggle Pill -->
-            <div class="auth-toggle">
+            <div class="auth-toggle" style="margin-bottom: 20px;">
                 <div class="toggle-btn active" id="btn-login" onclick="switchForm('login')">Log in</div>
                 <div class="toggle-btn" id="btn-register" onclick="switchForm('register')">Register</div>
             </div>
@@ -51,14 +75,13 @@
             <!-- ============================== -->
             <div id="login-form">
                 <h2 class="form-title">Welcome back</h2>
-                <p class="form-desc">Log in with your resident account to manage appointments.</p>
+                <p class="form-desc" style="margin-bottom: 20px;">Log in with your resident account to manage appointments.</p>
                 
                 <div class="auth-input-group">
                     <label>Email Address</label>
                     <div class="input-with-icon">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                        <!-- We will use email as our fake routing trigger -->
-                        <input type="text" id="login-email" placeholder="Enter your email">
+                        <input type="text" id="login-email" placeholder="Enter your email (Type 'resident')">
                     </div>
                 </div>
                 
@@ -80,57 +103,55 @@
             <!-- REGISTER FORM (Hidden by default) -->
             <!-- ============================== -->
             <div id="register-form" style="display: none;">
-                <h2 class="form-title" style="margin-bottom: 20px;">Create your account</h2>
+                <h2 class="form-title" style="margin-bottom: 15px; font-size: 22px;">Create your account</h2>
                 
                 <div class="register-grid">
-                    <div class="auth-input-group">
-                        <label>First name</label>
-                        <input type="text">
-                    </div>
-                    <div class="auth-input-group">
-                        <label>Last name</label>
-                        <input type="text">
-                    </div>
-                    <div class="auth-input-group">
-                        <label>Date of Birth</label>
-                        <input type="date">
-                    </div>
-
-                    <div class="auth-input-group col-2">
-                        <label>Email</label>
-                        <input type="email">
-                    </div>
-                    <div class="auth-input-group">
+                    <!-- Row 1: Compact Personal Details -->
+                    <div class="auth-input-group span-1"><label>First name</label><input type="text"></div>
+                    <div class="auth-input-group span-1"><label>Last name</label><input type="text"></div>
+                    <div class="auth-input-group span-1"><label>Date of Birth</label><input type="date"></div>
+                    <div class="auth-input-group span-1">
                         <label>Sex</label>
-                        <input type="text">
+                        <select style="border: 1px solid #d1d5db; border-radius: 8px; width: 100%; outline: none; background: white;">
+                            <option>Male</option><option>Female</option>
+                        </select>
                     </div>
 
-                    <div class="auth-input-group full-width">
-                        <label>Address</label>
-                        <input type="text">
-                    </div>
+                    <!-- Row 2: Account Details -->
+                    <div class="auth-input-group span-2"><label>Email</label><input type="email" placeholder="email@address.com"></div>
+                    <div class="auth-input-group span-1"><label>Mobile number</label><input type="text" placeholder="09XX XXX XXXX"></div>
+                    <div class="auth-input-group span-1"><label>Create password</label><input type="password"></div>
 
-                    <div class="auth-input-group full-width">
-                        <label>Barangay Extension</label>
-                        <input type="text" value="Proper / Main Barangay Hall" readonly>
-                    </div>
+                    <!-- Row 3: Text Address -->
+                    <div class="auth-input-group span-3"><label>Street Address</label><input type="text" placeholder="House/Block/Lot No. and Street"></div>
+                    <div class="auth-input-group span-1"><label>Barangay (Auto-fill)</label><input type="text" value="Proper" readonly style="background-color: #f3f4f6;"></div>
 
-                    <div class="auth-input-group full-width">
-                        <label>Mobile number</label>
-                        <input type="text">
-                    </div>
-
-                    <div class="auth-input-group full-width">
-                        <label>Create password</label>
-                        <input type="password">
+                    <!-- Row 4: MASSIVE Map Pin -->
+                    <div class="auth-input-group span-4" style="margin-top: 5px;">
+                        <label style="font-weight: bold; color: #df2a98;">Pin your exact household location</label>
+                        <!-- Safely sized map to prevent scrolling -->
+                        <div style="position: relative; width: 100%; height: 260px; border-radius: 8px; overflow: hidden; border: 1px solid #d1d5db;">
+                            <!-- Live Map -->
+                            <iframe width="100%" height="100%" frameborder="0" scrolling="no" src="https://www.openstreetmap.org/export/embed.html?bbox=120.9800%2C14.7800%2C121.0200%2C14.8100&layer=mapnik"></iframe>
+                            
+                            <!-- Static Center Pin -->
+                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -100%); pointer-events: none; color: #df2a98; filter: drop-shadow(0px 4px 4px rgba(0,0,0,0.3));">
+                                <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor" stroke="white" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3" fill="white"></circle></svg>
+                            </div>
+                            
+                            <!-- Floating Confirm Button -->
+                            <div style="position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%);">
+                                <button type="button" onclick="alert('Location Pinned Successfully!')" style="background: #111827; color: white; border: none; padding: 10px 20px; border-radius: 20px; font-size: 13px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.2);">Confirm Pin</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="terms-check">
+                <div class="terms-check" style="margin: 15px 0 10px 0;">
                     <small>I agree to the Terms of Service and Privacy Policy</small>
                 </div>
 
-                <button class="auth-submit-btn">Create an account</button>
+                <button class="auth-submit-btn" style="padding: 12px;" onclick="alert('Resident registered successfully! (Mockup)')">Create an account</button>
             </div>
 
         </div>
@@ -139,7 +160,6 @@
     <!-- JavaScript to handle the toggle and the fake login -->
     <script>
         function switchForm(formType) {
-            // Get elements
             const loginForm = document.getElementById('login-form');
             const regForm = document.getElementById('register-form');
             const btnLogin = document.getElementById('btn-login');
@@ -158,8 +178,7 @@
             }
         }
 
-// Mock Login Routing
-function handleLogin() {
+        function handleLogin() {
             const emailInput = document.getElementById('login-email').value.toLowerCase().trim();
             
             if (emailInput.includes('resident')) {

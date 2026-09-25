@@ -124,10 +124,26 @@
                 <div class="rm-data-row" style="grid-template-columns: 1fr;">
                     <div><small>Address:</small><span id="modal-address">-</span></div>
                 </div>
-                <div class="rm-data-row" style="grid-template-columns: 1fr 1fr;">
+                <div class="rm-data-row" style="grid-template-columns: 1fr 1fr; border-bottom: none; margin-bottom: 0; padding-bottom: 0;">
                     <div><small>Email(if available):</small><span id="modal-email">-</span></div>
                     <div><small>Mobile Number:</small><span id="modal-mobile">-</span></div>
                 </div>
+
+                <!-- Static Map Pin Display -->
+                <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 8px;">
+                    <small style="color: #6b7280; font-size: 11px; font-weight: bold; text-transform: uppercase;">Pinned Location</small>
+                    <div style="position: relative; width: 100%; height: 160px; border-radius: 8px; overflow: hidden; border: 1px solid #d1d5db;">
+                        
+                        <!-- ADDED ID HERE: id="resident-map" -->
+                        <iframe id="resident-map" width="100%" height="100%" frameborder="0" scrolling="no" src="https://www.openstreetmap.org/export/embed.html?bbox=120.9800%2C14.7800%2C121.0200%2C14.8100&layer=mapnik" style="pointer-events: none;"></iframe>
+                        
+                        <!-- Center Pin -->
+                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -100%); color: #df2a98; filter: drop-shadow(0px 3px 3px rgba(0,0,0,0.3));">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" stroke="white" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3" fill="white"></circle></svg>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="rm-acc-box">
                     <small>Account Available</small>
                     <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="1.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>

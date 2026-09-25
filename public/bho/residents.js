@@ -20,8 +20,8 @@ async function loadResidents() {
         const tbody = document.getElementById('residents-tbody');
         tbody.innerHTML = ''; 
 
-        // STRICT ROLE CHECK: Only Admins get the delete button
-        const isAdmin = window.location.pathname.includes('/admin/');
+        // Role Check: If NOT a BHW, give them the Delete Icon
+        const isBhw = window.location.pathname.includes('/bhw/');
 
         filteredResidents.forEach(r => {
             let pillClass = r.vaxStatus === 'Complete' ? 'status-complete' : (r.vaxStatus === 'Overdue' ? 'status-overdue' : 'status-incomplete');
@@ -36,10 +36,9 @@ async function loadResidents() {
                 <svg onclick="openEditModal('${r.name}', ${r.age}, '${r.dob}', '${r.sex}', '${r.area}', '${r.address}', '${r.email}', '${r.mobile}', '${r.vaxStatus}')" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
             `;
 
-            // Only append the Trash Icon if they are an Admin
-            if (isAdmin) { 
+            if (!isBhw) { 
                 actionIconsHTML += `
-                <!-- DELETE ICON (Admin Only) -->
+                <!-- DELETE ICON (Admin & BHO Only) -->
                 <svg onclick="deleteResident('${r.name}')" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer; color: #ef4444;"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
                 `;
             }
@@ -127,7 +126,9 @@ async function deleteResident(name) {
     }
 }
 
-// Modal Controls
+// ==========================================
+// Modal Controls & Map Logic
+// ==========================================
 function openModal(name, age, dob, sex, area, address, email, mobile) {
     document.getElementById('modal-name').textContent = name;
     document.getElementById('modal-age').textContent = age;
@@ -137,6 +138,34 @@ function openModal(name, age, dob, sex, area, address, email, mobile) {
     document.getElementById('modal-address').textContent = address;
     document.getElementById('modal-email').textContent = email;
     document.getElementById('modal-mobile').textContent = mobile;
+
+    // --- NEW: Generate a consistent, random location per person! ---
+    // Loma de Gato Map Coordinates 
+    const minLat = 14.77418, maxLat = 14.79250;
+    const minLon = 121.01355, maxLon = 121.02530;
+    
+    // Hash the resident's name so their fake location is always the exact same spot!
+    let hash = 0;
+    for (let i = 0; i < name.length; i++) {
+        hash = name.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    
+    // Normalize the math to get a decimal between 0 and 1
+    const pseudoRandomLat = Math.abs(Math.sin(hash));
+    const pseudoRandomLon = Math.abs(Math.cos(hash));
+
+    // Map the decimal to our boundaries
+    const centerLat = minLat + (pseudoRandomLat * (maxLat - minLat));
+    const centerLon = minLon + (pseudoRandomLon * (maxLon - minLon));
+    
+    // Create a very tight bounding box around the center coordinate to lock the map zoom
+    const zoomDelta = 0.003; 
+    const bbox = `${centerLon - zoomDelta}%2C${centerLat - zoomDelta}%2C${centerLon + zoomDelta}%2C${centerLat + zoomDelta}`;
+    
+    // Inject the custom bounding box directly into the iframe!
+    document.getElementById('resident-map').src = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik`;
+
+    // Open the modal
     document.getElementById('view-resident-modal').style.display = 'flex';
 }
 

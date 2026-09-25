@@ -28,7 +28,6 @@ async function loadResidents() {
             
             const tr = document.createElement('tr');
 
-            // TIME COMMAND ICON COMPLETELY REMOVED FROM THIS BLOCK
             let actionIconsHTML = `
                 <!-- VIEW ICON -->
                 <svg onclick="openModal('${r.name}', ${r.age}, '${r.dob}', '${r.sex}', '${r.area}', '${r.address}', '${r.email}', '${r.mobile}')" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
@@ -127,7 +126,9 @@ async function deleteResident(name) {
     }
 }
 
-// Modal Controls
+// ==========================================
+// Modal Controls & Map Logic
+// ==========================================
 function openModal(name, age, dob, sex, area, address, email, mobile) {
     document.getElementById('modal-name').textContent = name;
     document.getElementById('modal-age').textContent = age;
@@ -137,6 +138,34 @@ function openModal(name, age, dob, sex, area, address, email, mobile) {
     document.getElementById('modal-address').textContent = address;
     document.getElementById('modal-email').textContent = email;
     document.getElementById('modal-mobile').textContent = mobile;
+
+    // --- NEW: Generate a consistent, random location per person! ---
+    // Loma de Gato Map Coordinates 
+    const minLat = 14.77418, maxLat = 14.79250;
+    const minLon = 121.01355, maxLon = 121.02530;
+    
+    // Hash the resident's name so their fake location is always the exact same spot!
+    let hash = 0;
+    for (let i = 0; i < name.length; i++) {
+        hash = name.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    
+    // Normalize the math to get a decimal between 0 and 1
+    const pseudoRandomLat = Math.abs(Math.sin(hash));
+    const pseudoRandomLon = Math.abs(Math.cos(hash));
+
+    // Map the decimal to our boundaries
+    const centerLat = minLat + (pseudoRandomLat * (maxLat - minLat));
+    const centerLon = minLon + (pseudoRandomLon * (maxLon - minLon));
+    
+    // Create a very tight bounding box around the center coordinate to lock the map zoom
+    const zoomDelta = 0.003; 
+    const bbox = `${centerLon - zoomDelta}%2C${centerLat - zoomDelta}%2C${centerLon + zoomDelta}%2C${centerLat + zoomDelta}`;
+    
+    // Inject the custom bounding box directly into the iframe!
+    document.getElementById('resident-map').src = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik`;
+
+    // Open the modal
     document.getElementById('view-resident-modal').style.display = 'flex';
 }
 
