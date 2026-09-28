@@ -30,9 +30,9 @@ let registeredResidents = [
 
 let medicineInventory = [
     { id: 1, name: "Amoxicillin 500mg", category: "Antibiotic", stock: "850/1000", expiry: "01-22-2026", supplier: "PhilPharma Inc.", status: "In stock" },
-    { id: 2, name: "Paracetamol 500mg", category: "Analgesic", stock: "150/1200", expiry: "11-11-2025", supplier: "Generics Pharma", status: "Low Stock" },
-    { id: 3, name: "Cetirizine 10mg", category: "Antihistamine", stock: "0/500", expiry: "04-10-2025", supplier: "MedSupply Corp", status: "Out of Stock" },
-    { id: 4, name: "Metformin", category: "Antidiabetic", stock: "458/700", expiry: "02-11-2026", supplier: "Generics Pharma", status: "Out of Stock" }
+    { id: 2, name: "Paracetamol 500mg", category: "Analgesic", stock: "150/1200", expiry: "11-11-2026", supplier: "Generics Pharma", status: "Low Stock" },
+    { id: 3, name: "Cetirizine 10mg", category: "Antihistamine", stock: "0/500", expiry: "04-10-2026", supplier: "MedSupply Corp", status: "Out of Stock" },
+    { id: 4, name: "Metformin", category: "Antidiabetic", stock: "458/700", expiry: "09-31-2026", supplier: "Generics Pharma", status: "Out of Stock" }
 ];
 
 let missionsData = [

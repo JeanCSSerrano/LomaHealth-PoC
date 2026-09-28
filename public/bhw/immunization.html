@@ -58,18 +58,18 @@
                 </div>
                 <div class="imm-stat-card">
                     <small>Scheduled this week</small>
-                    <h2>18</h2>
+                    <h2>3</h2>
                 </div>
                 <div class="imm-stat-card">
-                    <small>Coverage Rate</small>
-                    <h2 style="color: #06b6d4;">98%</h2>
+                    <small>Incomplete</small>
+                    <h2 style="color: #ffd103;">1</h2>
                 </div>
             </div>
 
             <!-- Orange Alert Banner -->
             <div class="imm-alert-banner">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-                <span>3 residents have overdue vaccinations. Click the history icon to view details</span>
+                <span>2 residents have overdue vaccinations. Click the history icon to view details</span>
             </div>
 
             <h1 style="margin-bottom: 15px; font-size: 24px;">Immunization Tracking</h1>
@@ -81,23 +81,25 @@
                     <input type="text" placeholder="Search by name or area...">
                 </div>
                 <div class="filter-dropdowns">
-                    <select>
-                        <option>Heritage</option>
-                        <option>All Areas</option>
+                    <select id="filter-area" onchange="filterTable()">
+                        <option value="All Areas">All Areas</option>
+                        <option value="Heritage">Heritage</option>
+                        <option value="Deca">Deca</option>
+                        <option value="Proper">Proper</option>
                     </select>
-                    <select>
-                        <option>All Vaccines</option>
-                        <option>Pentavalent</option>
-                        <option>Polio (OPV)</option>
-                        <option>Measles</option>
-                        <option>COVID-19 Booster</option>
-                        <option>Pneumococcal</option>
+                    <select id="filter-vaccine" onchange="filterTable()">
+                        <option value="All Vaccines">All Vaccines</option>
+                        <option value="Pentavalent">Pentavalent</option>
+                        <option value="Polio (OPV)">Polio (OPV)</option>
+                        <option value="Measles">Measles</option>
+                        <option value="COVID-19 Booster">COVID-19 Booster</option>
+                        <option value="Pneumococcal">Pneumococcal</option>
                     </select>
-                    <select>
-                        <option>All Statuses</option>
-                        <option>Complete</option>
-                        <option>Incomplete</option>
-                        <option>Overdue</option>
+                    <select id="filter-status" onchange="filterTable()">
+                        <option value="All Statuses">All Statuses</option>
+                        <option value="Complete">Complete</option>
+                        <option value="Incomplete">Incomplete</option>
+                        <option value="Overdue">Overdue</option>
                     </select>
                 </div>
             </div>
@@ -116,7 +118,7 @@
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="imm-tbody">
                         <tr>
                             <td>Juan Dela Cruz</td>
                             <td>42</td>
@@ -162,7 +164,7 @@
         </div>
     </div>
 
-    <!-- SPLIT IMMUNIZATION MODAL (View Mode) -->
+<!-- SPLIT IMMUNIZATION MODAL (View Mode) -->
     <div id="imm-modal" class="modal" onclick="closeImmModal()">
         <div class="resident-modal-card imm-modal-card" onclick="event.stopPropagation()">
             <!-- Top Half: Resident Details -->
@@ -205,21 +207,42 @@
 
                 <div class="imm-divider"></div>
 
-                <!-- Right Side: History & Actions -->
+                <!-- Right Side: History -->
                 <div class="imm-split-half">
                     <div class="imm-split-header">
-                        <span>History</span>
-                        <span>Date</span>
+                        <span>Immunization History</span>
+                        <span>Date Administered</span>
                     </div>
                     <div class="imm-split-body">
-                        <!-- Action Buttons Container -->
-                        <div class="imm-action-panel">
-                            <button class="btn-imm-outline">New/Next appointment</button>
-                            <button class="btn-imm-green">Finish</button>
+                        
+                        <!-- STATIC HISTORY LOG -->
+                        <div style="display: flex; flex-direction: column; gap: 15px; overflow-y: auto; padding-right: 5px; max-height: 200px;">
+                            <div class="imm-split-row">
+                                <span style="font-weight: 500; color: #374151;">COVID-19 Booster</span>
+                                <span style="color: #6b7280; font-size: 13px;">2026-04-28</span>
+                            </div>
+                            <div class="imm-split-row">
+                                <span style="font-weight: 500; color: #374151;">Influenza Vaccine</span>
+                                <span style="color: #6b7280; font-size: 13px;">2025-11-10</span>
+                            </div>
+                            <div class="imm-split-row">
+                                <span style="font-weight: 500; color: #374151;">Pneumococcal</span>
+                                <span style="color: #6b7280; font-size: 13px;">2025-01-15</span>
+                            </div>
+                            <div class="imm-split-row">
+                                <span style="font-weight: 500; color: #374151;">Tetanus Toxoid</span>
+                                <span style="color: #6b7280; font-size: 13px;">2018-06-22</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!-- Action Buttons Container (Moved under the split view) -->
+            <div style="display: flex; margin-top: 15px; justify-content: flex-end;">
+                <button class="btn-imm-green" onclick="closeImmModal()">Next</button>
+            </div>
+            
         </div>
     </div>
 

@@ -83,8 +83,12 @@
                     <span>Month</span>
                 </div>
                 
-                <select style="padding: 10px 20px; border-radius: 8px; border: none; outline: none; width: 200px;">
-                    <option>All services</option>
+                <!-- NEW DROPDOWN LOGIC HERE -->
+                <select id="filter-service" onchange="loadAppointments()" style="padding: 10px 20px; border-radius: 8px; border: none; outline: none; width: 200px; cursor: pointer;">
+                    <option value="All">All services</option>
+                    <option value="General Consultation">General Consultation</option>
+                    <option value="Vaccination">Vaccination</option>
+                    <option value="Medicine Retrieval">Medicine Retrieval</option>
                 </select>
 
                 <div class="search-input-group" style="background: white; padding: 10px 15px; border-radius: 8px; width: 250px;">
@@ -111,7 +115,7 @@
                 </table>
 
                 <div class="pagination-bar" style="justify-content: space-between;">
-                    <span id="log-count" style="font-size: 14px; color: #4b5563; font-weight: 500;">Showing 0 log entries</span>
+                    <span id="log-count" style="font-size: 14px; color: #4b5563; font-weight: 500;"></span>
                     <div style="display: flex; gap: 10px;">
                         <button class="btn-page">PREVIOUS</button>
                         <button class="btn-page">NEXT</button>

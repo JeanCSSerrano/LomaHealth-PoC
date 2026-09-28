@@ -44,11 +44,11 @@
 
         <div class="auth-hero-text">
             <h1>Barangay Health<br>Management System</h1>
-            <p>Integrated health records, immunization tracking, and predictive analytics for Barangay Loma de Gato</p>
+            <p>with Predictive Analytics for Barangay Loma de Gato</p>
         </div>
 
         <div class="auth-footer">
-            <small>© 2026 Barangay Loma de Gato Health Center</small>
+            <small></small>
         </div>
     </div>
 
@@ -75,7 +75,7 @@
             <!-- ============================== -->
             <div id="login-form">
                 <h2 class="form-title">Welcome back</h2>
-                <p class="form-desc" style="margin-bottom: 20px;">Log in with your resident account to manage appointments.</p>
+                <p class="form-desc" style="margin-bottom: 20px;">Log in with your resident account.</p>
                 
                 <div class="auth-input-group">
                     <label>Email Address</label>
@@ -181,16 +181,16 @@
         function handleLogin() {
             const emailInput = document.getElementById('login-email').value.toLowerCase().trim();
             
-            if (emailInput.includes('resident@gmail.com')) {
+            if (emailInput.includes('juanadelacruz@gmail.com')) {
                 window.location.href = 'resident/index.html';
-            } else if (emailInput.includes('@bhw.com')) {
+            } else if (emailInput.includes('josecruz@bhw.com')) {
                 window.location.href = 'bhw/index.html'; 
-            } else if (emailInput.includes('@admin.com')) {
+            } else if (emailInput.includes('mariasantos@admin.com')) {
                 window.location.href = 'admin/index.html'; 
-            } else if (emailInput.includes('@bho.com')) {
+            } else if (emailInput.includes('carlosgarcia@bho.com')) {
                 window.location.href = 'bho/index.html'; 
             } else {
-                alert('(resident@gmail.com, @bhw.com, @admin.com, or @bho.com)');
+                alert('(juanadelacruz@gmail.com, josecruz@bhw.com, mariasantos@admin.com, or carlosgarcia@bho.com)');
             }
         }
     </script>

@@ -34,3 +34,38 @@ function openEditImmModal(name, vaccine, lastDate, nextDate, status) {
 function closeEditImmModal() {
     document.getElementById('edit-imm-modal').style.display = 'none';
 }
+
+// --- NEW: Live Filtering Logic ---
+function filterTable() {
+    const areaFilter = document.getElementById('filter-area').value;
+    const vaccineFilter = document.getElementById('filter-vaccine').value;
+    const statusFilter = document.getElementById('filter-status').value;
+
+    const tbody = document.getElementById('imm-tbody');
+    const rows = tbody.getElementsByTagName('tr');
+
+    for (let i = 0; i < rows.length; i++) {
+        const row = rows[i];
+        
+        // Grab the static text from the specific table cells
+        const vaccine = row.cells[2].textContent.trim();
+        const status = row.cells[5].textContent.trim();
+        
+        // Extract the area directly from the hardcoded onclick parameter
+        const actionHtml = row.cells[6].innerHTML;
+        let area = "Proper"; 
+        if (actionHtml.includes("'Heritage'")) area = "Heritage";
+        if (actionHtml.includes("'Deca'")) area = "Deca";
+        
+        // Match condition against dropdown value
+        const matchArea = (areaFilter === "All Areas") || (area === areaFilter);
+        const matchVaccine = (vaccineFilter === "All Vaccines") || (vaccine === vaccineFilter);
+        const matchStatus = (statusFilter === "All Statuses") || (status === statusFilter);
+
+        if (matchArea && matchVaccine && matchStatus) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    }
+}

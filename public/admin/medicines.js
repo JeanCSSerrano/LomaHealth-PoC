@@ -6,7 +6,20 @@ document.addEventListener("DOMContentLoaded", () => {
 async function loadMedicines() {
     try {
         const response = await fetch('/api/medicines');
-        const meds = await response.json();
+        let meds = await response.json();
+        
+        // --- NEW: Dropdown Filter Logic ---
+        const catFilter = document.getElementById('filter-category').value;
+        const statFilter = document.getElementById('filter-status').value;
+        
+        // Filter the data payload based on dropdown selections
+        meds = meds.filter(m => {
+            const matchCat = (catFilter === "All Categories") || (m.category === catFilter);
+            // Ensuring case-insensitivity because "Low stock" vs "Low Stock"
+            const matchStat = (statFilter === "All Statuses") || (m.status.toLowerCase() === statFilter.toLowerCase());
+            return matchCat && matchStat;
+        });
+
         const tbody = document.getElementById('medicines-tbody');
         tbody.innerHTML = ''; 
 

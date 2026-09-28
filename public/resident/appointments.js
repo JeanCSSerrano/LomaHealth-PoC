@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const tbody = document.getElementById('appointments-tbody');
         tbody.innerHTML = ''; 
 
-        // 4. Draw the dynamic rows
+        // 4. Draw the dynamic rows without the Reference column
         myAppointments.forEach(apt => {
             const tr = document.createElement('tr');
 
@@ -24,7 +24,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             if(apt.status === 'Missed') { bgStr = '#ef4444'; colStr = 'white'; } // Red
 
             tr.innerHTML = `
-                <td>${apt.reference}</td>
                 <td>${apt.service}</td>
                 <td>${apt.date} - ${apt.time}</td>
                 <td>${apt.location}</td>

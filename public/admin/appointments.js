@@ -10,12 +10,15 @@ async function loadResidentsDropdown() {
         const residents = await res.json();
         const select = document.getElementById('log-resident');
         
-        residents.forEach(r => {
-            const option = document.createElement('option');
-            option.value = JSON.stringify({ name: r.name, area: r.area }); 
-            option.textContent = r.name;
-            select.appendChild(option);
-        });
+        // Failsafe in case there's a specific dropdown for it in the HTML later
+        if(select) {
+            residents.forEach(r => {
+                const option = document.createElement('option');
+                option.value = JSON.stringify({ name: r.name, area: r.area }); 
+                option.textContent = r.name;
+                select.appendChild(option);
+            });
+        }
     } catch (error) {
         console.error("Error loading dropdown:", error);
     }
@@ -25,9 +28,15 @@ async function loadResidentsDropdown() {
 async function loadAppointments() {
     try {
         const response = await fetch('/api/appointments');
-        const appts = await response.json();
+        let appts = await response.json();
         
-        // --- NEW: Sort by date (Newest first) ---
+        // --- NEW: Filter by Service Dropdown ---
+        const filterEl = document.getElementById('filter-service');
+        if (filterEl && filterEl.value !== 'All') {
+            appts = appts.filter(a => a.service === filterEl.value);
+        }
+
+        // --- Sort by date (Newest first) ---
         appts.sort((a, b) => new Date(b.date) - new Date(a.date));
 
         const tbody = document.getElementById('appointments-tbody');
@@ -57,8 +66,7 @@ async function loadAppointments() {
             tbody.appendChild(tr);
         });
 
-        // Update the log count text at bottom left
-        document.getElementById('log-count').textContent = `Showing ${appts.length} log entries`;
+
 
     } catch (error) {
         console.error("Error loading appointments:", error);
@@ -67,16 +75,28 @@ async function loadAppointments() {
 
 // 3. Admin Adding a Walk-In
 async function addWalkIn() {
-    const rawResident = document.getElementById('log-resident').value;
-    const datetimeStr = document.getElementById('log-datetime').value;
-    const service = document.getElementById('log-service').value;
+    // Note: If you switched resident input back to a free text field, this logic adapts
+    let residentObj = { name: "Unknown Resident", area: "N/A" };
+    const rawResidentInput = document.querySelector('input[name="username"]');
+    const rawResidentSelect = document.getElementById('log-resident');
 
-    if (!rawResident || !datetimeStr) {
-        alert("Please select a resident and a date/time!");
+    if (rawResidentSelect && rawResidentSelect.value) {
+        residentObj = JSON.parse(rawResidentSelect.value);
+    } else if (rawResidentInput && rawResidentInput.value) {
+        residentObj.name = rawResidentInput.value;
+    } else {
+        alert("Please enter a resident and a date/time!");
         return;
     }
 
-    const residentObj = JSON.parse(rawResident);
+    const datetimeStr = document.getElementById('log-datetime').value;
+    const service = document.getElementById('log-service').value;
+
+    if (!datetimeStr) {
+        alert("Please select a date and time!");
+        return;
+    }
+
     const [datePart, timePart] = datetimeStr.split('T');
 
     const newAppt = {
@@ -95,6 +115,7 @@ async function addWalkIn() {
     });
 
     document.getElementById('log-datetime').value = ''; 
+    if(rawResidentInput) rawResidentInput.value = '';
     loadAppointments(); 
 }
 

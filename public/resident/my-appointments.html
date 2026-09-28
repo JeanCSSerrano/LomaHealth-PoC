@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>My Appointments - LomaHealth</title>
-    <link rel="stylesheet" href="../assets/style.css"">
+    <link rel="stylesheet" href="../assets/style.css">
 </head>
 <body>
     <!-- Sidebar -->
@@ -15,7 +15,7 @@
         <ul class="nav">
             <li onclick="window.location.href='index.html'">Dashboard</li>
             <li onclick="window.location.href='book-appointment.html'">Book Appointment</li>
-            <li onclick="window.location.href='my-appointments.html'"class="active">My Appointments</li>
+            <li onclick="window.location.href='my-appointments.html'" class="active">My Appointments</li>
             <li onclick="window.location.href='health-record.html'">Health Record</li>
             <li onclick="window.location.href='profile.html'">Profile</li>
         </ul>
@@ -58,7 +58,6 @@
                 <table class="appointments-table">
                     <thead>
                         <tr>
-                            <th>Reference</th>
                             <th>Service</th>
                             <th>Date & Time</th>
                             <th>Location</th>
@@ -66,27 +65,13 @@
                         </tr>
                     </thead>
                     <tbody id="appointments-tbody">
-                        <tr>
-                            <td>APT - 2240</td>
-                            <td>Medicine Retrieval</td>
-                            <td>Aug 5, 2026 - 2:00 PM</td>
-                            <td>Proper / Main Barangay Hall</td>
-                            <td><span class="status-btn">Confirmed</span></td>
-                        </tr>
-                        <tr>
-                            <td>APT - 3257</td>
-                            <td>Vaccination</td>
-                            <td>Jul 5, 2026 - 2:00 PM</td>
-                            <td>Proper / Main Barangay Hall</td>
-                            <td><span class="status-btn">Confirmed</span></td>
-                        </tr>
+                        <!-- Rendered dynamically by Javascript -->
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 
-    
     <script src="appointments.js"></script>
 
 </body>
