@@ -24,8 +24,6 @@ async function loadResidents() {
         const isBhw = window.location.pathname.includes('/bhw/');
 
         filteredResidents.forEach(r => {
-            let pillClass = r.vaxStatus === 'Complete' ? 'status-complete' : (r.vaxStatus === 'Overdue' ? 'status-overdue' : 'status-incomplete');
-            
             const tr = document.createElement('tr');
 
             let actionIconsHTML = `
@@ -33,7 +31,7 @@ async function loadResidents() {
                 <svg onclick="openModal('${r.name}', ${r.age}, '${r.dob}', '${r.sex}', '${r.area}', '${r.address}', '${r.email}', '${r.mobile}')" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                 
                 <!-- EDIT ICON -->
-                <svg onclick="openEditModal('${r.name}', ${r.age}, '${r.dob}', '${r.sex}', '${r.area}', '${r.address}', '${r.email}', '${r.mobile}', '${r.vaxStatus}')" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                <svg onclick="openEditModal('${r.name}', ${r.age}, '${r.dob}', '${r.sex}', '${r.area}', '${r.address}', '${r.email}', '${r.mobile}')" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
             `;
 
             if (!isBhw) { 
@@ -49,7 +47,7 @@ async function loadResidents() {
                 <td>${r.age}</td>
                 <td>${r.area}</td>
                 <td>${r.lastVisit}</td>
-                <td><span class="status-pill ${pillClass}">${r.vaxStatus}</span></td>
+                <td>${r.mobile}</td>
                 <td class="action-icons">
                     ${actionIconsHTML}
                 </td>
@@ -104,8 +102,7 @@ async function submitEditResident() {
         area: document.getElementById('edit-area').value,
         address: document.getElementById('edit-address').value,
         email: document.getElementById('edit-email').value,
-        mobile: document.getElementById('edit-mobile').value,
-        vaxStatus: document.getElementById('edit-vax').value
+        mobile: document.getElementById('edit-mobile').value
     };
 
     await fetch(`/api/residents/${originalName}`, {
@@ -139,37 +136,17 @@ function openModal(name, age, dob, sex, area, address, email, mobile) {
     document.getElementById('modal-email').textContent = email;
     document.getElementById('modal-mobile').textContent = mobile;
 
-    // --- NEW: Generate a consistent, random location per person! ---
-    // Loma de Gato Map Coordinates 
-    const minLat = 14.77418, maxLat = 14.79250;
-    const minLon = 121.01355, maxLon = 121.02530;
-    
-    // Hash the resident's name so their fake location is always the exact same spot!
+    // Hash the resident's name so their map image is always the exact same!
     let hash = 0;
     for (let i = 0; i < name.length; i++) {
         hash = name.charCodeAt(i) + ((hash << 5) - hash);
     }
-    
-    // Normalize the math to get a decimal between 0 and 1
-    const pseudoRandomLat = Math.abs(Math.sin(hash));
-    const pseudoRandomLon = Math.abs(Math.cos(hash));
-
-    // Map the decimal to our boundaries
-    const centerLat = minLat + (pseudoRandomLat * (maxLat - minLat));
-    const centerLon = minLon + (pseudoRandomLon * (maxLon - minLon));
-    
-    // Create a very tight bounding box around the center coordinate to lock the map zoom
-    const zoomDelta = 0.003; 
-    const bbox = `${centerLon - zoomDelta}%2C${centerLat - zoomDelta}%2C${centerLon + zoomDelta}%2C${centerLat + zoomDelta}`;
-    
-    // Inject the custom bounding box directly into the iframe!
-    document.getElementById('resident-map').src = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik`;
-
-    // Open the modal
+    const mapNumber = (Math.abs(hash) % 3) + 1; 
+    document.getElementById('resident-map').src = `../assets/images/map${mapNumber}.png`;
     document.getElementById('view-resident-modal').style.display = 'flex';
 }
 
-function openEditModal(name, age, dob, sex, area, address, email, mobile, vax) {
+function openEditModal(name, age, dob, sex, area, address, email, mobile) {
     document.getElementById('edit-original-name').value = name;
     document.getElementById('edit-name').value = name;
     document.getElementById('edit-age').value = age;
@@ -179,7 +156,6 @@ function openEditModal(name, age, dob, sex, area, address, email, mobile, vax) {
     document.getElementById('edit-address').value = address;
     document.getElementById('edit-email').value = email;
     document.getElementById('edit-mobile').value = mobile;
-    document.getElementById('edit-vax').value = vax;
     document.getElementById('edit-resident-modal').style.display = 'flex';
 }
 

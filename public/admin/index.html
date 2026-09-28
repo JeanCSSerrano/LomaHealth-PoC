@@ -45,7 +45,7 @@
                 <div class="avatar" style="background-color: #f472b6;">MS</div>
                 <div class="user-details">
                     <strong>Maria Santos</strong>
-                    <span class="badge" style="background-color: #f472b6;">ADMIN (PROPER)</span>
+                    <span class="badge" style="background-color: #f472b6;">System Admin</span>
                 </div>
             </div>
         </div>
@@ -104,10 +104,13 @@
             <!-- Bottom Layout -->
             <div class="admin-bottom-grid">
                 <!-- Chart Area -->
-                <div class="admin-card">
-                    <h3 style="font-size: 18px; color: #374151; font-weight: 600; margin-bottom: 20px;">Immunization Coverage by Area</h3>
-                    <!-- Pure CSS Donut Chart -->
-                    <div class="css-donut-chart"></div>
+                <div class="admin-card" style="display: flex; flex-direction: column;">
+                    <h3 style="font-size: 18px; color: #374151; font-weight: 600; margin-bottom: 10px;">Immunization Coverage by Area</h3>
+                    
+                    <!-- Expanded Static PNG Image Chart -->
+                    <div style="display: flex; justify-content: center; align-items: center; flex-grow: 1; padding: 10px 0;">
+                        <img src="../assets/images/wheel-chart.png" alt="Coverage Chart" style="width: 100%; height: auto; max-height: 400px; object-fit: contain;">
+                    </div>
                 </div>
 
                 <!-- PRETTIER Alerts Area -->

@@ -86,7 +86,7 @@
                             <th>Age</th>
                             <th>Area</th>
                             <th>Last Visit</th>
-                            <th>Vaccination status</th>
+                            <th>Mobile Number</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -127,9 +127,23 @@
                 <div class="rm-data-row" style="grid-template-columns: 1fr;">
                     <div><small>Address:</small><span id="modal-address">-</span></div>
                 </div>
-                <div class="rm-data-row" style="grid-template-columns: 1fr 1fr; border-bottom: none;">
+                <div class="rm-data-row" style="grid-template-columns: 1fr 1fr; border-bottom: none; margin-bottom: 0; padding-bottom: 0;">
                     <div><small>Email(if available):</small><span id="modal-email">-</span></div>
                     <div><small>Mobile Number:</small><span id="modal-mobile">-</span></div>
+                </div>
+
+                <!-- Static Map Pin Display -->
+                <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 8px;">
+                    <small style="color: #6b7280; font-size: 11px; font-weight: bold; text-transform: uppercase;">Pinned Location</small>
+                    <div style="position: relative; width: 100%; height: 160px; border-radius: 8px; overflow: hidden; border: 1px solid #d1d5db;">
+                        
+                        <!-- STATIC PNG MAP -->
+                        <img id="resident-map" src="../assets/images/map3.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Static Map">                        
+                        <!-- Center Pin -->
+                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -100%); color: #df2a98; filter: drop-shadow(0px 3px 3px rgba(0,0,0,0.3));">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" stroke="white" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3" fill="white"></circle></svg>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -154,7 +168,7 @@
                 <div class="auth-input-group">
                     <label>Area</label>
                     <select id="add-area" style="padding: 12px 15px; border: 1px solid #d1d5db; border-radius: 8px; width: 100%; outline: none;">
-                        <option>Heritage</option><option>Proper</option><option>Deca</option>
+                        <option>Proper</option><option>Heritage</option><option>Deca</option>
                     </select>
                 </div>
                 <div class="auth-input-group" style="grid-column: span 2;"><label>Address</label><input type="text" id="add-address"></div>
@@ -165,6 +179,61 @@
             <div style="display: flex; gap: 15px; margin-top: 20px; justify-content: flex-end;">
                 <button onclick="closeAddModal()" style="padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer;">Cancel</button>
                 <button onclick="submitNewResident()" style="padding: 10px 20px; border: none; background-color: #115e59; color: white; border-radius: 8px; cursor: pointer;">Save Resident</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- EDIT RESIDENT MODAL (BHW RESTRICTED MODE) -->
+    <div id="edit-resident-modal" class="modal" onclick="closeEditModal()">
+        <div class="resident-modal-card" style="flex-direction: column; max-width: 600px;" onclick="event.stopPropagation()">
+            <h2 style="margin-bottom: 20px; color: #111827;">Update Resident Record</h2>
+            <!-- Hidden field so the API knows who we are editing -->
+            <input type="hidden" id="edit-original-name"> 
+            
+            <div class="register-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <!-- Locked/Readonly Fields -->
+                <div class="auth-input-group" style="grid-column: span 2;">
+                    <label>Full Name</label>
+                    <input type="text" id="edit-name" readonly style="background-color: #f3f4f6; color: #6b7280; border: 1px solid #e5e7eb;">
+                </div>
+                <div class="auth-input-group">
+                    <label>Age</label>
+                    <input type="number" id="edit-age" readonly style="background-color: #f3f4f6; color: #6b7280; border: 1px solid #e5e7eb;">
+                </div>
+                <div class="auth-input-group">
+                    <label>DOB</label>
+                    <input type="date" id="edit-dob" readonly style="background-color: #f3f4f6; color: #6b7280; border: 1px solid #e5e7eb;">
+                </div>
+                <div class="auth-input-group">
+                    <label>Sex</label>
+                    <select id="edit-sex" disabled style="padding: 12px 15px; border-radius: 8px; width: 100%; outline: none; background-color: #f3f4f6; color: #6b7280; border: 1px solid #e5e7eb;">
+                        <option>Male</option><option>Female</option>
+                    </select>
+                </div>
+                <div class="auth-input-group">
+                    <label>Area</label>
+                    <select id="edit-area" disabled style="padding: 12px 15px; border-radius: 8px; width: 100%; outline: none; background-color: #f3f4f6; color: #6b7280; border: 1px solid #e5e7eb;">
+                        <option>Proper</option><option>Heritage</option><option>Deca</option>
+                    </select>
+                </div>
+                <div class="auth-input-group" style="grid-column: span 2;">
+                    <label>Address</label>
+                    <input type="text" id="edit-address" readonly style="background-color: #f3f4f6; color: #6b7280; border: 1px solid #e5e7eb;">
+                </div>
+                <div class="auth-input-group">
+                    <label>Email</label>
+                    <input type="email" id="edit-email" readonly style="background-color: #f3f4f6; color: #6b7280; border: 1px solid #e5e7eb;">
+                </div>
+                <!-- THE ONLY EDITABLE FIELD for BHW -->
+                <div class="auth-input-group" style="grid-column: span 2;">
+                    <label>Mobile Number</label>
+                    <input type="text" id="edit-mobile" style="padding: 12px 15px; border: 1px solid #d1d5db; border-radius: 8px; width: 100%; outline: none; background: white; color: #111827;">
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 15px; margin-top: 20px; justify-content: flex-end;">
+                <button onclick="closeEditModal()" style="padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer;">Cancel</button>
+                <button onclick="submitEditResident()" style="padding: 10px 20px; border: none; background-color: #f59e0b; color: white; border-radius: 8px; cursor: pointer; font-weight: bold;">Update Record</button>
             </div>
         </div>
     </div>

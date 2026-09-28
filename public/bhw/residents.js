@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // 1. Fetch data from server and draw the table
-// 1. Fetch data from server and draw the table
 async function loadResidents() {
     try {
         const response = await fetch('/api/residents');
@@ -25,9 +24,6 @@ async function loadResidents() {
         tbody.innerHTML = ''; // Clear the table first
 
         filteredResidents.forEach(r => {
-            // Pick the right color for the pill
-            let pillClass = r.vaxStatus === 'Complete' ? 'status-complete' : (r.vaxStatus === 'Overdue' ? 'status-overdue' : 'status-incomplete');
-            
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td><div class="res-avatar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div></td>
@@ -35,19 +31,20 @@ async function loadResidents() {
                 <td>${r.age}</td>
                 <td>${r.area}</td>
                 <td>${r.lastVisit}</td>
-                <td><span class="status-pill ${pillClass}">${r.vaxStatus}</span></td>
+                <td>${r.mobile}</td>
                 <td class="action-icons">
-                    <!-- The eye icon triggers openModal with the resident's data -->
-                    <svg onclick="openModal('${r.name}', ${r.age}, '${r.dob}', '${r.sex}', '${r.area}', '${r.address}', '${r.email}', '${r.mobile}')" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    <!-- VIEW ICON -->
+                    <svg onclick="openModal('${r.name}', ${r.age}, '${r.dob}', '${r.sex}', '${r.area}', '${r.address}', '${r.email}', '${r.mobile}')" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                    <!-- EDIT ICON -->
+                    <svg onclick="openEditModal('${r.name}', ${r.age}, '${r.dob}', '${r.sex}', '${r.area}', '${r.address}', '${r.email}', '${r.mobile}')" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                    <!-- HISTORY ICON -->
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="cursor:pointer;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                 </td>
             `;
             tbody.appendChild(tr);
         });
 
-        // Update the footer text count (Will safely ignore if element doesn't exist on Admin/BHO)
+        // Update the footer text count
         const logCount = document.getElementById('log-count');
         if(logCount) {
             logCount.textContent = `Showing ${filteredResidents.length} of ${allResidents.length} total residents`;
@@ -95,6 +92,32 @@ async function submitNewResident() {
     }
 }
 
+// 3. Submit Edit (Mobile Number Update Only for BHW perspective)
+async function submitEditResident() {
+    const originalName = document.getElementById('edit-original-name').value;
+    
+    // It safely reads all the background values even though the user couldn't click them
+    const updatedData = {
+        name: document.getElementById('edit-name').value,
+        age: document.getElementById('edit-age').value,
+        dob: document.getElementById('edit-dob').value,
+        sex: document.getElementById('edit-sex').value,
+        area: document.getElementById('edit-area').value,
+        address: document.getElementById('edit-address').value,
+        email: document.getElementById('edit-email').value,
+        mobile: document.getElementById('edit-mobile').value // The ONLY field that changed!
+    };
+
+    await fetch(`/api/residents/${originalName}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedData)
+    });
+
+    closeEditModal();
+    loadResidents(); 
+}
+
 // ==========================================
 // Modal Controls
 // ==========================================
@@ -108,9 +131,30 @@ function openModal(name, age, dob, sex, area, address, email, mobile) {
     document.getElementById('modal-email').textContent = email;
     document.getElementById('modal-mobile').textContent = mobile;
     
+    // Hash the resident's name so their map image is always the exact same!
+    let hash = 0;
+    for (let i = 0; i < name.length; i++) {
+        hash = name.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const mapNumber = (Math.abs(hash) % 3) + 1; 
+    document.getElementById('resident-map').src = `../assets/images/map${mapNumber}.png`;
     document.getElementById('view-resident-modal').style.display = 'flex';
+}
+
+function openEditModal(name, age, dob, sex, area, address, email, mobile) {
+    document.getElementById('edit-original-name').value = name;
+    document.getElementById('edit-name').value = name;
+    document.getElementById('edit-age').value = age;
+    document.getElementById('edit-dob').value = dob;
+    document.getElementById('edit-sex').value = sex;
+    document.getElementById('edit-area').value = area;
+    document.getElementById('edit-address').value = address;
+    document.getElementById('edit-email').value = email;
+    document.getElementById('edit-mobile').value = mobile;
+    document.getElementById('edit-resident-modal').style.display = 'flex';
 }
 
 function closeModal() { document.getElementById('view-resident-modal').style.display = 'none'; }
 function openAddModal() { document.getElementById('add-resident-modal').style.display = 'flex'; }
 function closeAddModal() { document.getElementById('add-resident-modal').style.display = 'none'; }
+function closeEditModal() { document.getElementById('edit-resident-modal').style.display = 'none'; }
